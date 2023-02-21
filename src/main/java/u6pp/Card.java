@@ -30,5 +30,84 @@ public class Card {
         DRAW_2, REVERSE, SKIP, WILD, WILD_DRAW_4};
 
     // start you code here
+    
+    public static boolean isInArray(String str, String[] arr) {
+        for (String s : arr) {
+            if (s.equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    private String color;
+    private final String value;
 
+    public Card(String color, String value) {
+        if (color == null || value == null) {
+            throw new IllegalArgumentException("Color and value cannot be null");
+        }
+
+        if (!value.equals(WILD) && color.equals(WILD)) {
+            throw new IllegalArgumentException("Cannot set WILD color on non-wild card");
+        }
+
+        this.color = color;
+        this.value = value;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getValue() {
+        return value;
+    }
+//checks if card if valid card
+    public boolean canPlayOn(Card other) {
+        if (other == null) {
+            return false;
+        }
+    //another condition
+        if (this.color.equals(WILD_DRAW_4)) {
+            return true;
+        }
+    //checks if color and value are valid
+        if (this.color.equals(other.color) || this.value.equals(other.value)) {
+            return true;
+        }
+    
+        if (other.color.equals(WILD) && other.getColor() != null && this.color.equals(other.getColor())) {
+            return true;
+        }
+    
+        return false;
+    }
+
+    public boolean trySetColor(String color) {
+        if (color == null || (!color.equals(WILD) && !this.color.equals(WILD))) {
+            return false;
+        }
+        if (color.equals(this.color)) {
+            return false;
+        }
+        if (!color.equals(WILD) && !this.value.equals(WILD)) {
+            return false;
+        }
+        this.color = color;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return color + " " + value;
+    }
+
+	public String getRank() {
+		return null;
+	}
 }
+
+
+
