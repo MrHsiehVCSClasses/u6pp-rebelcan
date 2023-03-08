@@ -19,7 +19,9 @@ public class CardStack {
         if (cards.size() == 0) {
             return null;
         }
-        return cards.remove(cards.size() - 1);
+        Card temp = cards.get(cards.size() - 1);
+        cards.remove(cards.size() - 1);
+        return temp;
     }
 //if no more cards to get then null
     public Card peek() {
@@ -64,4 +66,30 @@ public class CardStack {
             }
         }
     }
+    public static CardStack createUnoDeck() {
+        CardStack stack = new CardStack();
+        for (String color : Card.COLORS) {
+            if (color.equalsIgnoreCase(Card.WILD)) {
+                continue;
+            }
+    
+            for (String value : Card.VALUES) {
+                if (value.equals(Card.WILD) || value.equals(Card.WILD_DRAW_4)) {
+                    continue;
+                }
+                stack.push(new Card(color, value));
+                if (!value.equalsIgnoreCase(Card.ZERO)) {
+                    stack.push(new Card(color, value));
+                }
+            }
+        }
+    
+        for (int i = 0; i < 4; i++) {
+            stack.push(new Card(Card.WILD, Card.WILD));
+            stack.push(new Card(Card.WILD, Card.WILD_DRAW_4));
+        }
+    
+        return stack;
+    }
+    
 }
