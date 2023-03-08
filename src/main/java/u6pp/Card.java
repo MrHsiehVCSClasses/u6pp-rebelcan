@@ -25,7 +25,7 @@ public class Card {
     public static String WILD_DRAW_4 = "WILD_DRAW_4";
 
     // Wild color is the default color for wilds, before they are played. 
-    public static String[] COLORS = {RED, GREEN, BLUE, YELLOW, WILD}; 
+    public static String[] COLORS = {RED, GREEN, BLUE, YELLOW, WILD, WILD_DRAW_4}; 
     public static String[] VALUES = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, 
         DRAW_2, REVERSE, SKIP, WILD, WILD_DRAW_4};
 
@@ -49,7 +49,7 @@ public class Card {
             throw new IllegalArgumentException("Color and value cannot be null");
         }
 
-        if (!value.equals(WILD) && color.equals(WILD)) {
+        if (!color.equals(WILD) && value.equals(WILD) && !color.equals(WILD_DRAW_4)) {
             throw new IllegalArgumentException("Cannot set WILD color on non-wild card");
         }
 
@@ -70,7 +70,11 @@ public class Card {
             return false;
         }
     //another condition
-        if (this.color.equals(WILD_DRAW_4)) {
+        if (this.value.equals(WILD) || this.color.equals(WILD)) {
+            return true;
+        }
+        
+        if (this.value.equals(WILD_DRAW_4)) {
             return true;
         }
     //checks if color and value are valid
@@ -86,7 +90,16 @@ public class Card {
     }
 
     public boolean trySetColor(String color) {
-        if (color == null || (!color.equals(WILD) && !this.color.equals(WILD))) {
+        boolean isVal = false;
+        for(int i = 0; i < COLORS.length; i++){
+            if(COLORS[i].equals(color)){
+                isVal = true;
+            }
+        }
+        if(!isVal){
+            return false;
+        }
+        if (color == null || (!color.equals(WILD) && !this.color.equals(WILD) && !this.color.equals(WILD_DRAW_4))) {
             return false;
         }
         if (color.equals(this.color)) {
