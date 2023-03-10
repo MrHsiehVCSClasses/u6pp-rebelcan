@@ -49,7 +49,7 @@ public class Card {
             throw new IllegalArgumentException("Color and value cannot be null");
         }
 
-        if (!color.equals(WILD) && value.equals(WILD) && !color.equals(WILD_DRAW_4)) {
+        if (!value.equals(WILD) && color.equals(WILD) && !value.equals(WILD_DRAW_4)) {
             throw new IllegalArgumentException("Cannot set WILD color on non-wild card");
         }
 
@@ -70,7 +70,7 @@ public class Card {
             return false;
         }
     //another condition
-        if (this.value.equals(WILD) || this.color.equals(WILD)) {
+        if (this.value.equals(WILD) || this.color.equals(WILD) || this.color.equals(WILD_DRAW_4)|| this.value.equals(WILD_DRAW_4)) {
             return true;
         }
         
