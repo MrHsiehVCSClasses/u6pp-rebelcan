@@ -20,7 +20,7 @@ public class Uno {
     public Uno(int playerCount) {
         players = new ArrayList<Player>();
         for(int i = 0; i < playerCount; i++){
-            System.out.println("ran");
+            
             players.add(new Player("p" + Integer.toString(i + 1)));
         }
         this.deck = CardStack.createUnoDeck();
@@ -84,24 +84,25 @@ public class Uno {
         if (currentPlayer.getHand().size() == 1) {
             currentPlayer.setSaidUno(true);
         }
-        else if (card.getValue() == Card.SKIP && card.canPlayOn(getTopDiscard())) {
+        if (card.getValue() == Card.SKIP && card.canPlayOn(getTopDiscard())){
             getNextPlayer();
         }
-        else if (card.getValue() == Card.DRAW_2 && card.canPlayOn(getTopDiscard())) {
+        else if (card.getValue() == Card.DRAW_2 && card.canPlayOn(getTopDiscard())){
             getNextPlayer();
             players.get(currentPlayerIndex).addCardToHand(deck.pop());
             players.get(currentPlayerIndex).addCardToHand(deck.pop());
         }
-        else if (card.getValue() == Card.WILD && !(card.getColor() == Card.WILD_DRAW_4)) {
+        else if (card.getValue() == Card.WILD && !(card.getColor() == Card.WILD_DRAW_4)){
             getTopDiscard().trySetColor(color);
         }
-        else if (card.getValue() == Card.WILD_DRAW_4 || card.getColor() == Card.WILD_DRAW_4) {
+        else if (card.getValue() == Card.WILD_DRAW_4 || card.getColor() == Card.WILD_DRAW_4){
+            System.out.println("ran");
             getTopDiscard().trySetColor(color);
+            players.get(getNextPlayerIndex()).addCardToHand(deck.pop());
+            players.get(getNextPlayerIndex()).addCardToHand(deck.pop());
+            players.get(getNextPlayerIndex()).addCardToHand(deck.pop());
+            players.get(getNextPlayerIndex()).addCardToHand(deck.pop());
             getNextPlayer();
-            players.get(currentPlayerIndex).addCardToHand(deck.pop());
-            players.get(currentPlayerIndex).addCardToHand(deck.pop());
-            players.get(currentPlayerIndex).addCardToHand(deck.pop());
-            players.get(currentPlayerIndex).addCardToHand(deck.pop());
         }
         else if (currentPlayer.getHand().size() == 0) {
             return true;
